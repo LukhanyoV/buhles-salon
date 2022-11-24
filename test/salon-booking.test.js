@@ -175,6 +175,30 @@ describe("The Booking Salon", function () {
         const comm = await booking.totalCommission(date2, 1);
         assert.equal(62.25, comm);
     })
+    it("should find all the stylists that ever given this treatment", async function() {
+        const client1 = await booking.findClient("0715354455");
+        const client2 = await booking.findClient("0635249875");
+
+        const treatment1 = await booking.findTreatment("BAL");
+        const treatment2 = await booking.findTreatment("PED");
+
+        // day1 - 11:00
+        let stylistId1 = 1;
+        let date1 = '2022-11-24';
+        let time1 = '11:00';
+
+        // day1 - 12:00
+        let stylistId2 = 2;
+        let date2 = '2022-11-25';
+        let time2 = '12:00';
+
+        await booking.makeBooking(client1.id, treatment1.id, stylistId1, date1, time1);
+        await booking.makeBooking(client1.id, treatment2.id, stylistId2, date2, time2);
+        await booking.makeBooking(client2.id, treatment1.id, stylistId2, date2, time1);
+
+        const stylists = await booking.findStylistsForTreatment(treatment1.id);
+        assert.equal(2, stylists.length);
+    })
 
     after(function () {
         db.$pool.end()

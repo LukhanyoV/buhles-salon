@@ -71,6 +71,11 @@ export default function salonBooking(db) {
         return totalDay.total_income * stylist.commission_percentage;
     }
 
+    // get all the stylists that have done this treatment
+    async function findStylistsForTreatment(treatmentId) {
+        return await db.any("SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM booking JOIN stylist ON stylist.id = booking.stylist_id WHERE booking.treatment_id = $1", [treatmentId])
+    }
+
     return {
         findAllTreatments,
         findStylist,
@@ -81,6 +86,7 @@ export default function salonBooking(db) {
         findClientBookings,
         totalIncomeForDay,
         mostValuableClient,
-        totalCommission
+        totalCommission,
+        findStylistsForTreatment
     }
 }  

@@ -63,6 +63,14 @@ export default function salonBooking(db) {
         `)
     }
 
+    // total commision for a stylist on a given day
+    async function totalCommission(date, stylistId)	{
+        const totalDay = await totalIncomeForDay(date)
+        const stylist = await db.oneOrNone("SELECT commission_percentage FROM stylist WHERE id = $1", [stylistId])
+        if(!totalDay || !stylist) return 0;
+        return totalDay.total_income * stylist.commission_percentage;
+    }
+
     return {
         findAllTreatments,
         findStylist,
@@ -72,6 +80,7 @@ export default function salonBooking(db) {
         makeBooking,
         findClientBookings,
         totalIncomeForDay,
-        mostValuableClient
+        mostValuableClient,
+        totalCommission
     }
 }  

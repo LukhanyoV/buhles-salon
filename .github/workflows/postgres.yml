@@ -50,8 +50,8 @@ jobs:
     - run: npm install -g npm
     - run: npm install
     - run: |
-        PGPASSWORD=buhle123 psql -h localhost -U buhle -d salon_test -a -f << path to sql file './db/tables.sql'>>
-        PGPASSWORD=buhle123 psql -h localhost -U buhle -d salon_test -a -f << path to sql file './db/tables.sql'>>
+        PGPASSWORD=buhle123 psql -h localhost -U buhle -d salon_test -a -f './sql/tables.sql'
+        PGPASSWORD=buhle123 psql -h localhost -U buhle -d salon_test -a -f './sql/data.sql'
     - run: npm run build --if-present
     - run: npm test
     env: 

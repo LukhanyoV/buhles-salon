@@ -158,3 +158,5 @@ Add a link to your kanban board in the `readme.md` file below.
 ## Planning links
 
 **Todo** Add links to you planning here.
+
+- link to [kanban](https://kanbanflow.com/board/nU6D3cK)

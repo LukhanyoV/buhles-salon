@@ -51,6 +51,18 @@ export default function salonBooking(db) {
         return await db.oneOrNone("SELECT SUM(price) AS total_income FROM booking AS b JOIN treatment AS t ON b.treatment_id = t.id WHERE b.booking_date = $1", [date])
     }
 
+    // get the most valuable client
+    async function mostValuableClient() {
+        return await db.oneOrNone(`
+        SELECT * FROM (
+            select sum(price) as expense, first_name, last_name from booking 
+            join client on booking.client_id = client.id 
+            join treatment on treatment.id = booking.treatment_id 
+            group by client_id, first_name, last_name
+        ) as temptable ORDER BY expense DESC LIMIT 1
+        `)
+    }
+
     return {
         findAllTreatments,
         findStylist,
@@ -59,6 +71,7 @@ export default function salonBooking(db) {
         findAllBookings,
         makeBooking,
         findClientBookings,
-        totalIncomeForDay
+        totalIncomeForDay,
+        mostValuableClient
     }
 }  

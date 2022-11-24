@@ -127,8 +127,29 @@ describe("The Booking Salon", function () {
         assert.equal(Number(total.total_income), 415);
     })
 
-    it.skip("should be able to find the most valuable client", function() {
-        assert.equal(1, 2);
+    it("should be able to find the most valuable client", async function() {
+        const client1 = await booking.findClient("0715354455");
+        const client2 = await booking.findClient("0635249875");
+
+        const treatment1 = await booking.findTreatment("BAL");
+        const treatment2 = await booking.findTreatment("PED");
+
+        // day1 - 11:00
+        let stylistId1 = 1;
+        let date1 = '2022-11-24';
+        let time1 = '11:00';
+
+        // day1 - 12:00
+        let stylistId2 = 2;
+        let date2 = '2022-11-24';
+        let time2 = '12:00';
+
+        await booking.makeBooking(client1.id, treatment1.id, stylistId1, date1, time1);
+        await booking.makeBooking(client1.id, treatment2.id, stylistId2, date2, time2);
+        await booking.makeBooking(client2.id, treatment1.id, stylistId2, date2, time1);
+
+        const vmax = await booking.mostValuableClient()
+        assert.equal('Emihle', vmax.first_name);
     })
     it.skip("should be able to find the total commission for a given stylist", function() {
         assert.equal(1, 2);

@@ -15,7 +15,7 @@ CREATE TABLE treatment  (
 
 CREATE TABLE stylist (
     id SERIAL PRIMARY KEY,
-    irst_name VARCHAR(20) NOT NULL,
+    first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
     commission_percentage NUMERIC (3,2)
